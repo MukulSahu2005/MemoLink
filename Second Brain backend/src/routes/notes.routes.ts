@@ -1,7 +1,6 @@
 import { Router } from "express";
 import{verifyJWT} from "../middlewares/auth.middleware.js"
 import {createNote, deleteNote, getNotes, updateNote,getNoteById, getSharedNotePublicly, enableSharing} from "../controllers/notes.controller.js"
-import { verify } from "jsonwebtoken";
 
 const router=Router();
 

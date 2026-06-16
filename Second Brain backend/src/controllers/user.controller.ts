@@ -19,7 +19,7 @@ const cookieOptions = {
  * @access  Public
  */
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   if (!username || typeof username !== "string" || username.trim() === "") {
     throw new ApiError(400, "Username is required");
@@ -29,13 +29,17 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(400, "Password is required");
   }
 
-  const existingUser = await userModel.findOne({ username: username.toLowerCase() });
+  const orQuery: any[] = [{ username: username.toLowerCase() }];
+  if (email) orQuery.push({ email: email.toLowerCase() });
+
+  const existingUser = await userModel.findOne({ $or: orQuery });
   if (existingUser) {
-    throw new ApiError(409, "User with this username already exists");
+    throw new ApiError(409, "User with this username or email already exists");
   }
 
   const user = await userModel.create({
     username: username.toLowerCase().trim(),
+    email: email ? email.toLowerCase().trim() : undefined,
     password
   });
 
@@ -50,19 +54,24 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, createdUser, "User registered successfully"));
 });
 
+
 /**
  * @desc    Login existing user
  * @route   POST /api/v1/users/signin
  * @access  Public
  */
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { identifier, password } = req.body;
 
-  if (!username || !password) {
-    throw new ApiError(400, "Username and password are required");
+  if (!identifier || !password) {
+    throw new ApiError(400, "Identifier (username or email) and password are required");
   }
 
-  const user = await userModel.findOne({ username: username.toLowerCase() });
+  const search = identifier.includes('@')
+    ? { email: identifier.toLowerCase() }
+    : { username: identifier.toLowerCase() };
+
+  const user = await userModel.findOne(search);
   if (!user) {
     throw new ApiError(404, "User does not exist");
   }

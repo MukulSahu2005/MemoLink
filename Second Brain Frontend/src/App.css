@@ -1,0 +1,6 @@
+/* App.css - Minimal styles, most styling via Tailwind */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

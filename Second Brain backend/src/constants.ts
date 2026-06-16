@@ -1,1 +1,1 @@
-export const DB_NAME="Second Brain";
+export const DB_NAME="SecondBrain";

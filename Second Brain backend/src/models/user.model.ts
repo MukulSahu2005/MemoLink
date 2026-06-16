@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 export interface IUser extends Document {
   username: string;
+  email?: string;
   password: string;
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): string;
@@ -17,6 +18,14 @@ const userSchema = new Schema<IUser>({
     lowercase: true,
     trim: true,
     index: true
+  },
+  email: {
+    type: String,
+    required: false,
+    unique: true,
+    lowercase: true,
+    trim: true,
+    sparse: true
   },
   password: {
     type: String,

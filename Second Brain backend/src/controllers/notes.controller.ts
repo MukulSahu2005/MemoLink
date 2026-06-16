@@ -234,16 +234,25 @@ export const enableSharing = asyncHandler(async (req: AuthenticatedRequest, res:
     throw new ApiError(403, 'Access denied. You do not own this note.');
   }
 
-  // ID generation condition: Only build a new token string if one doesn't exist yet
-  if (!note.isShared || !note.shareableId) {
+  // Toggle sharing state
+  if (note.isShared) {
+    note.isShared = false;
+    note.shareableId = undefined;
+    await note.save();
+    
+    res.status(200).json(
+      new ApiResponse(200, { shareableId: null }, 'Public access revoked successfully.')
+    );
+  } 
+  else {
     note.isShared = true;
     note.shareableId = crypto.randomBytes(12).toString('hex'); // Generates an unguessable 24-char hash string
     await note.save();
-  }
 
-  res.status(200).json(
-    new ApiResponse(200, { shareableId: note.shareableId }, 'Public link generated successfully.')
-  );
+    res.status(200).json(
+      new ApiResponse(200, { shareableId: note.shareableId }, 'Public link generated successfully.')
+    );
+  }
 });
 
 /**

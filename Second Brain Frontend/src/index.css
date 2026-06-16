@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Geist:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Default is dark mode to match design tokens exactly */
+    --color-bg-base: #1a1b1e;
+    --color-bg-panel: #22232a;
+    --color-bg-card: #2a2b33;
+    --color-bg-input: #ffffff;
+    
+    --color-brand: #6b5cf6;
+    --color-brand-hover: #7c6cf7;
+    --color-brand-muted: #4c3dc4;
+    
+    --color-text-primary: #f1f1f3;
+    --color-text-secondary: #9899a6;
+    --color-text-accent: #6b5cf6;
+    --color-text-dark: #111114;
+    
+    --color-border-subtle: rgba(255, 255, 255, 0.07);
+    --color-border-focus: #6b5cf6;
+    
+    --color-status-online: #22c55e;
+    --color-status-offline: #6b7280;
+    --color-status-error: #ef4444;
+  }
+
+  :root[data-theme='light'] {
+    /* Light Mode Values */
+    --color-bg-base: #f7f8fa;
+    --color-bg-panel: #eaebee;
+    --color-bg-card: #ffffff;
+    --color-bg-input: #f3f4f6;
+    
+    --color-brand: #6b5cf6;
+    --color-brand-hover: #7c6cf7;
+    --color-brand-muted: #8c7efb;
+    
+    --color-text-primary: #1e1f24;
+    --color-text-secondary: #6e707d;
+    --color-text-accent: #6b5cf6;
+    --color-text-dark: #111114;
+    
+    --color-border-subtle: rgba(0, 0, 0, 0.08);
+    --color-border-focus: #6b5cf6;
+    
+    --color-status-online: #16a34a;
+    --color-status-offline: #71717a;
+    --color-status-error: #dc2626;
+  }
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-family: 'Geist', 'Inter', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+/* Floating Blob Keyframes */
+@keyframes float-blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-float-slow {
+  animation: float-blob 20s infinite ease-in-out;
+}
+
+.animate-float-reverse {
+  animation: float-blob 25s infinite ease-in-out reverse;
+}

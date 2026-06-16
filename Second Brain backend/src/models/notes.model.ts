@@ -12,7 +12,7 @@ export interface INote extends Document {
   username: string;
 
   isShared: boolean;
-  shareableId?: string;
+  shareableId?: string | undefined;
   
   createdAt: Date;
   updatedAt: Date;
