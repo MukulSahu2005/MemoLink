@@ -65,7 +65,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // DEPLOYMENT= COKKIE AND SESSION HANDSHAKE
 // Added session middleware so to allow the share of cookies 
 app.use(session({
-  secret:process.env.SESSION_SECRET || 'super-secret-local-key';
+  secret:process.env.SESSION_SECRET || 'super-secret-local-key',
   resave: false,
   saveUninitialized: false,
   // cokkie settings 
