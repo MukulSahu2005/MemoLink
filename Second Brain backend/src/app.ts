@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+const session = require('express-session');
+
 import userRouter from "./routes/user.routes.js";
 import notesRouter from "./routes/notes.routes.js"
 import authRouter from "./routes/auth.routes.js";
@@ -15,15 +17,24 @@ const allowedOrigins = [
   process.env.CORS_ORIGIN
 ].filter(Boolean) as string[];
 
+// DEPLOYMENT => ASKING EXPRESS TO TRUST RENDER'S PROXY
+app.set('trust proxy', 1);
+
+
 app.use(cors({
   origin: function (origin, callback) {
+    // server to server request =alllowed 
     if (!origin) return callback(null, true);
+
+    // ARRAY doamins=> allowed
     if (allowedOrigins.indexOf(origin) !== -1 || origin.startsWith("http://localhost:")) {
       return callback(null, true);
     }
+    
+    // else errror
     return callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
+  credentials: true 
 }));
 
 app.use(express.json({ limit: "16kb" }));
@@ -35,6 +46,7 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/notes", notesRouter);
 app.use("/api/v1/auth", authRouter);
+
 
 // Global error handler middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -49,4 +61,20 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
+
+// DEPLOYMENT= COKKIE AND SESSION HANDSHAKE
+// Added session middleware so to allow the share of cookies 
+app.use(session({
+  secret:process.env.SESSION_SECRET || 'super-secret-local-key';
+  resave: false,
+  saveUninitialized: false,
+  // cokkie settings 
+  cookie: {
+    // secure must be true in production (HTTPS), but false locally (HTTP)
+    secure: process.env.NODE_ENV === 'production', 
+    // sameSite 'none' allows Vercel to read cookies set by Render
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }
+}))
 export { app };
