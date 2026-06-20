@@ -12,8 +12,11 @@ const router = Router();
 // 1. Send user to google 
 // sended to the google wuth my client id so that they know i had sended the request for checking 
 router.get('/google',(req,res)=>{
-  const googleAuthUrl=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email`
+  // const googleAuthUrl=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email`
+  
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=https://memolink-js1f.onrender.com/api/v1/auth/google/callback&response_type=code&scope=profile email`;
 
+  
   res.redirect(googleAuthUrl);
 });
 
@@ -87,7 +90,9 @@ router.get('/google/callback', async (req, res) => {
     );
 
     // 4. Redirect back to Vite, sending the REAL token and REAL user
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    // const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    
+    const frontendUrl = "memo-link-sigma.vercel.app/dashboard"; 
     const userString = encodeURIComponent(JSON.stringify(databaseUser));
     
     res.redirect(`${frontendUrl}/dashboard?token=${memolinkToken}&user=${userString}`);

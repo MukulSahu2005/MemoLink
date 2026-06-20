@@ -39,14 +39,18 @@ export default function SignIn() {
     }
   };
 
+  // const handleGoogleSignIn = () => {
+  //   const base = import.meta.env.VITE_API_BASE_URL ?? '';
+  //   const url = `${base}/api/v1/auth/google`;
+
+  //   // redirect to backend OAuth placeholder
+  //   window.location.href = url;
+  // };
+
+    //direct connected to test
   const handleGoogleSignIn = () => {
-    const base = import.meta.env.VITE_API_BASE_URL ?? '';
-    const url = `${base}/api/v1/auth/google`;
-
-    // redirect to backend OAuth placeholder
-    window.location.href = url;
+    window.location.href = "https://memolink-js1f.onrender.com/api/v1/auth/google";
   };
-
   const pageVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { 
