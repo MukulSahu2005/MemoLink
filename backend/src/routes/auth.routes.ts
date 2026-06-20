@@ -92,7 +92,7 @@ router.get('/google/callback', async (req, res) => {
     // 4. Redirect back to Vite, sending the REAL token and REAL user
     // const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     
-    const frontendUrl = "memo-link-sigma.vercel.app/dashboard"; 
+    const frontendUrl = "https://memo-link-sigma.vercel.app/dashboard"; 
     const userString = encodeURIComponent(JSON.stringify(databaseUser));
     
     res.redirect(`${frontendUrl}/dashboard?token=${memolinkToken}&user=${userString}`);
