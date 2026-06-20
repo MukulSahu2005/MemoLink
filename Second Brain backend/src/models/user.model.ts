@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 export interface IUser extends Document {
   username: string;
   email?: string;
+  authProvider:string;
   password: string;
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): string;
@@ -27,16 +28,23 @@ const userSchema = new Schema<IUser>({
     trim: true,
     sparse: true
   },
+  authProvider:{
+    type:String,
+    enum: ['local','google'],
+    default:'local'
+  },
   password: {
     type: String,
-    required: [true, "password is required"]
+    required: function():boolean{
+      return this.authProvider==='local';
+    }
   }
 }, {
   timestamps: true
 });
 
 userSchema.pre("save", async function(this: any) {
-  if (!this.isModified("password")) return;
+  if (!this.isModified("password") || !this.password) return;
   this.password = await bcrypt.hash(this.password, 10);
 });
 

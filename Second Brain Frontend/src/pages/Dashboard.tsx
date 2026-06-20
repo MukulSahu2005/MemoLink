@@ -25,7 +25,9 @@ export const Dashboard = () => {
       setNotes(res.data.data);
     } 
     catch (err: any) {
-      toast.error(err?.message || 'Failed to load notes');
+      if (err?.status !== 401) {
+        toast.error(err?.message || 'Failed to load notes');
+      }
     }
   };
 

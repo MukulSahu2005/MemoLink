@@ -23,6 +23,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    if (err?.response?.status === 401) {
+      localStorage.removeItem('memolink_token');
+      localStorage.removeItem('memolink_user');
+      const path = window.location.pathname;
+      if (path !== '/signin' && path !== '/signup' && path !== '/') {
+        window.location.href = '/signin';
+      }
+    }
+    
     const message = err?.response?.data?.message ?? 'An unexpected error occurred.';
     return Promise.reject({ status: err?.response?.status, message });
   }

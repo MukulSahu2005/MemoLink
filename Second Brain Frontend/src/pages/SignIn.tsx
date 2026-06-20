@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 export default function SignIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -29,9 +30,11 @@ export default function SignIn() {
       await login(identifier.trim(), password);
       toast.success('System Authenticated. Entry Granted.');
       navigate('/dashboard');
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       toast.error(err?.message || 'Authorization failed. Check security credentials.');
-    } finally {
+    } 
+    finally {
       setIsLoading(false);
     }
   };
@@ -39,6 +42,7 @@ export default function SignIn() {
   const handleGoogleSignIn = () => {
     const base = import.meta.env.VITE_API_BASE_URL ?? '';
     const url = `${base}/api/v1/auth/google`;
+
     // redirect to backend OAuth placeholder
     window.location.href = url;
   };
@@ -63,6 +67,7 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen bg-bg-base flex flex-col items-center justify-center p-6 relative font-sans">
+      
       {/* Background decoration */}
       <div className="absolute top-[-10%] right-[-10%] w-[30vw] h-[30vw] rounded-full bg-brand/5 blur-[100px] pointer-events-none" />
       
@@ -116,11 +121,11 @@ export default function SignIn() {
             </span>
           </div>
 
-          <div className="flex justify-center mb-4">
-            <Button variant="ghost" className="w-full max-w-sm" onClick={handleGoogleSignIn}>
+          {/* <div className="flex justify-center mb-4">
+            <Button variant="ghost" className="w-full max-w-sm" onClick={handleGoogleSignIn} type='button'>
               Sign in with Google
             </Button>
-          </div>
+          </div> */}
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible">
@@ -190,10 +195,11 @@ export default function SignIn() {
             <span className="font-mono text-xs text-text-secondary/40 select-none">OR</span>
             <div className="flex-grow border-t border-border-subtle" />
           </div>
-
+          
+          {/* Initialize with google */}
           <Button
             variant="ghost"
-            onClick={() => toast.info('Google SSO integration pending API keys.')}
+            onClick={handleGoogleSignIn} type='button'
             className="w-full flex items-center justify-center gap-2 border border-border-subtle py-3 hover:bg-border-subtle"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
