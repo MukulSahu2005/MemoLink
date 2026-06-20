@@ -72,12 +72,16 @@ export default function SignUp() {
     }
   };
 
-  const handleGoogleSignUp = () => {
-    const base = import.meta.env.VITE_API_BASE_URL ?? '';
-    const url = `${base}/api/v1/auth/google`;
-    window.location.href = url;
-  };
+  // const handleGoogleSignUp = () => {
+  //   const base = import.meta.env.VITE_API_BASE_URL ?? '';
+  //   const url = `${base}/api/v1/auth/google`;
+  //   window.location.href = url;
+  // };
 
+  //direct connected to test
+  const handleGoogleSignUp = () => {
+    window.location.href = "https://memolink-js1f.onrender.com/api/v1/auth/google";
+  };
   const getStrengthColor = (score: number) => {
     if (score === 1) return 'bg-status-error';
     if (score === 2) return 'bg-amber-500';
