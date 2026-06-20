@@ -17,7 +17,7 @@ import { app } from "./app.js";
 //   });
 
 // CHECKIING FOR DEPLOYMENT
-
+const PORT = process.env.PORT || 10000;
 // 1. SHUTTER SABSE PEHLE KHOLO (Render instantly 'LIVE' mark kar dega)
 app.listen(PORT, () => {
   console.log(`⚙️  Server is officially LIVE at port: ${PORT}`);
