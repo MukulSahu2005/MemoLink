@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-const session = require('express-session');
+// const session = require('express-session');
+import session from 'express-session';
 
 import userRouter from "./routes/user.routes.js";
 import notesRouter from "./routes/notes.routes.js"
