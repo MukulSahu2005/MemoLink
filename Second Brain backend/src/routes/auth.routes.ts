@@ -92,7 +92,8 @@ router.get('/google/callback', async (req, res) => {
     
     res.redirect(`${frontendUrl}/dashboard?token=${memolinkToken}&user=${userString}`);
 
-  } catch(error) {
+  } 
+  catch(error) {
     console.error("OAuth Error:", error);
     res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/signin?error=oauth_failed`);
   }
