@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // created base url and logic so that not have to give me server url everytime in api calls
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://memolink-js1f.onrender.com',
   withCredentials: true,
 });
 

@@ -27,7 +27,9 @@ export const verifyJWT = asyncHandler(async (req: CustomRequest, _, next: NextFu
       throw new ApiError(500, "JWT secret is not configured");
     }
   
+    console.log('verifyJWT token:', token);
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as DecodedToken;
+    console.log('Decoded token:', decodedToken);
   
     const user = await userModel.findById(decodedToken._id).select("-password");
   
@@ -38,6 +40,7 @@ export const verifyJWT = asyncHandler(async (req: CustomRequest, _, next: NextFu
     req.user = user;
     next();
   } catch (error: any) {
+    console.error("verifyJWT Error details:", error);
     throw new ApiError(401, error?.message || "Invalid access token");
   }
 });

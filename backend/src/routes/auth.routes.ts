@@ -12,11 +12,8 @@ const router = Router();
 // 1. Send user to google 
 // sended to the google wuth my client id so that they know i had sended the request for checking 
 router.get('/google',(req,res)=>{
-  // const googleAuthUrl=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email`
-  
-  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=https://memolink-js1f.onrender.com/api/v1/auth/google/callback&response_type=code&scope=profile email`;
-
-  
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3004/api/v1/auth/google/callback';
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=profile email`;
   res.redirect(googleAuthUrl);
 });
 
@@ -106,10 +103,11 @@ router.get('/google',(req,res)=>{
 
 router.get('/google/callback', async (req, res) => {
   const { code } = req.query;
-  const FRONTEND_URL = "https://memo-link-sigma.vercel.app"; // Absolute Fevicol
+  const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5174';
 
   try {
     // A. Exchange code for Token
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3004/api/v1/auth/google/callback';
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -117,7 +115,7 @@ router.get('/google/callback', async (req, res) => {
         code: code as string,
         client_id: process.env.GOOGLE_CLIENT_ID as string,
         client_secret: process.env.GOOGLE_CLIENT_SECRET as string,
-        redirect_uri: "https://memolink-js1f.onrender.com/api/v1/auth/google/callback",
+        redirect_uri: redirectUri,
         grant_type: 'authorization_code',
       }),
     });
@@ -184,7 +182,8 @@ router.get('/google/callback', async (req, res) => {
 
   } catch(error) {
     console.error("❌ FATAL CATCH BLOCK ERROR:", error);
-    res.redirect("https://memo-link-sigma.vercel.app/signin?error=server_exploded");
+    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5174';
+    res.redirect(`${FRONTEND_URL}/signin?error=server_exploded`);
   }
 });
 export default router;

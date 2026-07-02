@@ -136,6 +136,7 @@ export const Dashboard = () => {
 
       {/* Drawer & Modal */}
       <CreateNoteDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} onCreated={handleCreate} />
+        
       <EditNoteModal note={selectedNote} isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} onUpdated={handleUpdate} />
     </div>
   );

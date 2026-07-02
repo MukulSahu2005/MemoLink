@@ -49,7 +49,8 @@ export default function SignIn() {
 
     //direct connected to test
   const handleGoogleSignIn = () => {
-    window.location.href = "https://memolink-js1f.onrender.com/api/v1/auth/google";
+    const base = import.meta.env.VITE_API_BASE_URL ?? 'https://memolink-js1f.onrender.com';
+    window.location.href = `${base}/api/v1/auth/google`;
   };
   const pageVariants = {
     hidden: { opacity: 0, y: 40 },

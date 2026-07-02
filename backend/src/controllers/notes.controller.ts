@@ -31,6 +31,8 @@ export const createNote= asyncHandler(async(req:AuthenticatedRequest,res: Respon
   }
 
   const allowedTypes: NoteType[] = ['document', 'tweet', 'youtube', 'link'];
+
+  
   if (!allowedTypes.includes(type)) {
     throw new ApiError(400, `Invalid type. Allowed types: ${allowedTypes.join(', ')}`);
   }

@@ -15,6 +15,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:3000",
+  "https://memo-link-sigma.vercel.app",
   process.env.FRONTEND_URL
 ].filter(Boolean) as string[];
 
@@ -53,6 +54,8 @@ app.use("/api/v1/auth", authRouter);
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
+  
+  console.error("🔥 Global Error Handler:", err);
   
   res.status(statusCode).json({
     success: false,
